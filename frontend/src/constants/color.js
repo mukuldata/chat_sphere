@@ -13,6 +13,6 @@ export const bgGradient = "linear-gradient(135deg, rgb(255, 245, 250), #d3402f9e
 export const purple = "rgba(75,12,192,1)";
 export const purpleLight = "rgba(75,12,192,0.2)";
 
-export const loginBackground = `url('/public/b1.png')`;
+export const loginBackground = `url('/b1.png')`;
 
-export const chatBackground = `url('/public/c1.png')`;
+export const chatBackground = `url('/c1.png')`;
