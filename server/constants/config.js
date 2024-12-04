@@ -10,4 +10,6 @@ const corsOptions = {
 
 const CHAT_SPHERE_TOKEN = "chat-sphere-token";
 
-export { corsOptions, CHAT_SPHERE_TOKEN };
+const CHAT_SPHERE_ADMIN_TOKEN = "chat-sphere-admin-token";
+
+export { corsOptions, CHAT_SPHERE_TOKEN,CHAT_SPHERE_ADMIN_TOKEN };

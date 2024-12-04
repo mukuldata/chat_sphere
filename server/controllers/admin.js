@@ -6,6 +6,7 @@ import { User } from "../models/user.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { cookieOptions } from "../utils/features.js";
 import { adminSecretKey } from "../app.js";
+import {CHAT_SPHERE_ADMIN_TOKEN} from "../constants/config.js"
 
 const adminLogin = TryCatch(async (req, res, next) => {
   const { secretKey } = req.body;
@@ -18,13 +19,13 @@ const adminLogin = TryCatch(async (req, res, next) => {
 
   return res
     .status(200)
-    .cookie("chat_sphere-admin-token", token, {
+    .cookie(CHAT_SPHERE_ADMIN_TOKEN, token, {
       ...cookieOptions,
       maxAge: 1000 * 60 * 15,
     })
     .json({
       success: true,
-      message: "Authenticated Successfully, Welcome BOSS",
+      message: "Authenticated Successfully, Welcome Admin ",
     });
 });
 

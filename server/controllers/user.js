@@ -86,9 +86,11 @@ const searchUser = TryCatch(async (req, res) => {
   //  extracting All Users from my chats means friends or people I have chatted with
   const allUsersFromMyChats = myChats.flatMap((chat) => chat.members);
 
+  const excludeIds = [...new Set([...allUsersFromMyChats, req.user])];
+
   // Finding all users except me and my friends
   const allUsersExceptMeAndFriends = await User.find({
-    _id: { $nin: allUsersFromMyChats },
+    _id: { $nin: excludeIds},
     name: { $regex: name, $options: "i" },
   });
 
@@ -115,7 +117,11 @@ const sendFriendRequest = TryCatch(async (req, res, next) => {
     ],
   });
 
-  if (request) return next(new ErrorHandler("Request already sent", 400));
+  if (request?.sender==req.user && request?.receiver==userId ) return next(new ErrorHandler("Request already sent", 400));
+
+  if (request?.sender==userId &&  request?.receiver==req.user) return next(new ErrorHandler("Already a friend request pending from user", 400));
+
+  // if (request) return next(new ErrorHandler("Request already sent", 400));
 
   await Request.create({
     sender: req.user,

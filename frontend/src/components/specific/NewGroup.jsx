@@ -79,13 +79,13 @@ const NewGroup = () => {
           onChange={groupName.changeHandler}
         />
 
-        <Typography variant="body1">Members</Typography>
+        <Typography variant="body1" align="center">Members</Typography>
 
         <Stack>
           {isLoading ? (
             <Skeleton />
           ) : (
-            data?.friends?.map((i) => (
+          data?.friends.length>0 ?( data?.friends?.map((i) => (
               <UserItem
                 user={i}
                 key={i._id}
@@ -93,7 +93,9 @@ const NewGroup = () => {
                 isAdded={selectedMembers.includes(i._id)}
               />
             ))
-          )}
+          ): <Typography variant="p" align="center">Add friends to create group</Typography>
+        )
+        }
         </Stack>
 
         <Stack direction={"row"} justifyContent={"space-evenly"}>

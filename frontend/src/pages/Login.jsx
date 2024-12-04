@@ -16,10 +16,11 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { VisuallyHiddenInput } from "../components/styles/StyledComponents";
-import { bgGradient } from "../constants/color";
+import { loginBackground } from "../constants/color";
 import { server } from "../constants/config";
 import { userExists } from "../redux/reducers/auth";
 import { usernameValidator } from "../utils/validators";
+import { motion,AnimatePresence} from 'framer-motion';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -35,8 +36,16 @@ const Login = () => {
   const password = useInputValidation("");
 
   const avatar = useFileHandler("single");
+  
 
   const dispatch = useDispatch();
+
+
+  const containerVariants = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+    exit: { opacity: 0, x: -100, transition: { duration: 0.5 } },
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();   // wont refresh page 
@@ -116,7 +125,10 @@ const Login = () => {
   return (
     <div
       style={{
-        backgroundImage: bgGradient,
+        backgroundImage: loginBackground,
+        backgroundPosition: 'bottom right', 
+        backgroundSize: 'cover', 
+        backgroundRepeat: 'no-repeat'
       }}
     >
       <Container
@@ -126,21 +138,27 @@ const Login = () => {
           height: "100vh",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <Paper
-          elevation={3}
+          elevation={6}
           sx={{
             padding: 4,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+             alignItems: "center",
+             border: '3px solid #ccc',
+             borderRadius: '14px', 
+             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.8)'
           }}
         >
+           <AnimatePresence mode="wait">
           {isLogin ? (
             <>
-             <Typography variant="h4" >Chat Sphere</Typography>
+             {/* <Typography variant="h4" >Chat Sphere</Typography>
+              */}
+              <MotionTypography key="login" containerVariants={containerVariants}/>
               <Typography variant="h5">Login</Typography>
               <form
                 style={{
@@ -199,7 +217,8 @@ const Login = () => {
             </>
           ) : (
             <>
-             <Typography variant="h4">Chat Sphere</Typography>
+              <MotionTypography key="signup" containerVariants={containerVariants}/>
+          
               <Typography variant="h5">Sign Up</Typography>
               <form
                 style={{
@@ -328,10 +347,44 @@ const Login = () => {
               </form>
             </>
           )}
+         </AnimatePresence>
         </Paper>
       </Container>
     </div>
   );
+};
+
+const MotionTypography = ({key,containerVariants}) => {
+  return (
+    <>
+       <motion.div
+              key={key}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+        >
+    <Typography
+      variant="h4"
+      sx={{
+        position: "relative",
+        fontWeight: "bold",
+        fontSize: "3rem",
+        textAlign: "center",
+        letterSpacing: "0.5px",
+        textShadow: "0 2px 6px rgba(0, 0, 0, 0.5)",
+        WebkitTextStroke: "2px black",
+        textStroke: "2px black",
+
+        borderRadius: "10px",
+        padding: "8px",
+      }}
+    >
+      Chat Sphere
+    </Typography>
+  </motion.div>
+  </>
+  )
 };
 
 

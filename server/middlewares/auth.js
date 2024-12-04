@@ -4,6 +4,7 @@ import { adminSecretKey } from "../app.js";
 import { TryCatch } from "./error.js";
 import { CHAT_SPHERE_TOKEN } from "../constants/config.js";
 import { User } from "../models/user.js";
+import {CHAT_SPHERE_ADMIN_TOKEN} from "../constants/config.js";
 
 const isAuthenticated = TryCatch((req, res, next) => {
   const token = req.cookies[CHAT_SPHERE_TOKEN];
@@ -18,7 +19,7 @@ const isAuthenticated = TryCatch((req, res, next) => {
 });
 
 const adminOnly = (req, res, next) => {
-  const token = req.cookies["chat-sphere-admin-token"];
+  const token = req.cookies[CHAT_SPHERE_ADMIN_TOKEN];
 
   if (!token)
     return next(new ErrorHandler("Only Admin can access this route", 401));
